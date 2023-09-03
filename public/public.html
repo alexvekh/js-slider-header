@@ -1,0 +1,297 @@
+<html>
+
+  <head>
+    <title>
+		JavaScript Header and Slider
+    </title>
+    <base href='../' />
+    <meta charset='utf-8' />
+
+
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet' />
+<style>
+        body { 
+          padding: 0;
+        }
+
+        .page {
+          max-width: 600px;
+          width: 100%;
+          margin: 0 auto;
+          background-color: #fff;
+          display: flex;
+          flex-direction: column;
+          gap: 25px;
+        }
+
+        .header {
+          position: absolute;
+          top: 0;
+          max-width: 600px;
+          width: 100%;
+          left: calc(50% - 300px);
+          z-index: 1;
+          background-color: #fff;
+        }
+        .header__top {
+          display: flex;
+          justify-content: space-between;
+          padding: 24px 0;
+          border-bottom: 1px solid #DEE2E6;
+        }
+        .header__list {
+          display: flex;
+          gap: 24px;
+        }
+        .header__list--top {
+          flex-direction: column;
+          gap: 12px;
+        }
+        .header__link {
+          color: #343a40;
+          font-size: 16px;
+          text-decoration: none;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          transitiobn: opacity 0.7s;
+        }
+        .header__link:hover {
+          opacity: 0.7;
+        }
+        .header__button {
+          height: 24px;
+          width: 24px;
+          background-position: center center;
+          background-repeat: no-repeat;
+          cursor: pointer;
+          transitiobn: opacity 0.7s;
+          border: none;
+        }
+        .header__button--open {
+          background-image: url('public/svg/menu.svg');
+        }
+        .header__button--close {
+          background-image: url("public/svg/x.svg");
+        }
+        .header__button:hover {
+          opacity: 0.7;
+        }
+        .header__buttom {
+          padding: 24px 0;
+          border-bottom: 1px solid #DEE2E6;
+        }
+        .header__wrapper {
+          overflow: hidden;
+          transition: height 0.7s;
+          height: 0px;
+        }
+
+        .menu {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 25px 0;
+          border-bottom: 1px solid #DEE2E6;
+        }
+        .menu ul {
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+        }
+        .menu__button {
+          height: 24px;
+          width: 24px;
+          background-position: center center;
+          background-repeat: no-repeat;
+          cursor: pointer;
+          transitiobn: opacity 0.7s;
+          border: none;
+        }
+        .menu__button--open {
+          background-image: url("public/svg/menu.svg");
+        }
+        .menu__button--close {
+          background-image: url("public/svg/x.svg");
+        }
+        .menu__button:hover {
+          opacity: 0.7;
+        }
+
+        .menu--hidden {
+          display: flex;
+          padding: 0;
+        }
+        .menu--hidden ul {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .slider {
+          border-radius: 12px;
+          position: relative;
+          width: 100%;
+        }
+        .slider__content {
+          display: flex;
+          overflow: hidden;
+          border-radius: 12px;
+        }
+        .slider__button {
+          height: 32px;
+          width: 32px;
+          background-color: #fff;
+          border-radius: 32px;
+          background-position: center center;
+          background-repeat: no-repeat;
+          position: absolute;
+          top: calc(50% - 16px);
+          cursor: pointer;
+          transitiobn: opacity 0.7s;
+        }
+        .slider__button--left {
+          background-image: url("public/svg/slider__left.svg");
+          left: 24px;
+        }
+        .slider__button--right {
+          background-image: url("public/svg/slider__right.svg");
+          right: 24px;
+        }
+        .slider__button:hover {
+          opacity: 0.7;
+        }
+    </style>
+
+  </head>
+
+  <body>
+
+<div class='page'>
+
+  <header class='header'>
+    <div class='header__top'>
+      <div class='header__list'>
+        <a href='#' class='header__link'>Home</a>
+        <a href='#' class='header__link'>About</a>
+        <a href='#' class='header__link'>Contact</a>
+      </div>
+      <button class='header__button header__button--open'></button>
+    </div>
+    <div class='header__wrapper'>
+      <div class='header__bottom'>
+        <div class='header__list header__list--top'>
+          <a href='#' class='header__link'>Service</a>
+          <a href='#' class='header__link'>Privacy</a>
+          <a href='#' class='header__link'>Clients</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class='slider'>
+    <div class='slider__content'>
+      <img src='https://picsum.photos/600/400' alt='' class='slider__item' width='100%' height='400' />
+      <img src='https://picsum.photos/600/400' alt='' class='slider__item' width='100%' height='400' />
+      <img src='https://picsum.photos/600/400' alt='' class='slider__item' width='100%' height='400' />
+      <img src='https://picsum.photos/600/400' alt='' class='slider__item' width='100%' height='400' />
+    </div>
+
+    <button class='slider__button slider__button--left'></button>
+    <button class='slider__button slider__button--right'></button>
+
+  </main>
+
+</div>
+<script>
+	class Slider {
+  static #content = null
+  static #left = null
+  static #right = null
+  static #count = 1
+  static #max = null
+
+  static init = () => {
+    this.#content = document.querySelector('.slider__content')
+    this.#left = document.querySelector('.slider__button--left')
+    this.#right = document.querySelector('.slider__button--right')
+    this.#max = this.#content.childElementCount
+    //console.log(this.#content, this.#left, this.#right, this.#count, this.#max)
+    this.#left.onclick = () => this.#slide('left')
+    this.#right.onclick = () => this.#slide('right')
+  }
+
+  static #slide = (slide) => {
+    const offsetWidth = this.#content.offsetWidth
+    const scrollLeft = this.#content.scrollLeft
+    const scrollWidth = this.#content.scrollWidth
+    //console.log(offsetWidth)
+
+    let scroll = 0
+
+    if (slide === 'left') {
+      if (this.#count === 1 || scrollLeft === 0) {
+        this.#count = this.#max
+        scroll = (this.#count - 1) * offsetWidth
+      } else {
+        this.#count -= 1
+        scroll = (this.#count - 1) * offsetWidth
+      }
+    }
+
+    if (slide === 'right') {
+      if (this.#count === this.#max || scrollLeft === scrollWidth - offsetWidth) {
+        this.#count = 1
+        scroll = 0
+      } else {
+        this.#count += 1
+        scroll = (this.#count - 1) * offsetWidth
+      }
+    }
+
+    this.#content.scrollTo({
+      top: 0,
+      left: scroll,
+      behavior: 'smooth',
+    })
+  }
+}
+Slider.init()
+
+class Header {
+  static #height = null
+  static #wrapper = null
+  static #button = null
+  static #isOpen = false
+
+  static init() {
+    this.#height = document.querySelector('.header__bottom').offsetHeight
+    this.#wrapper = document.querySelector('.header__wrapper')
+    this.#button = document.querySelector('.header__button')
+    this.#button.onclick = this.#toggle
+
+    //  console.log(this.#wrapper, this.#button, this.#height)
+  }
+
+  static #toggle = () => {
+    if (this.#isOpen) {
+      this.#button.classList.replace('header__button--close', 'header__button--open')
+      this.#wrapper.style.height = 0
+    } else {
+      this.#button.classList.replace('header__button--open', 'header__button--close')
+      this.#wrapper.style.height = `${this.#height}px`
+    }
+
+    this.#isOpen = !this.#isOpen
+  }
+}
+Header.init()
+
+</script>
+  </body>
+
+
+</html>
